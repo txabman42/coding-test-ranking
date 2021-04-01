@@ -1,0 +1,28 @@
+{
+  "advertisements": [
+    {
+      "typology": "CHALET",
+      "description": "Este piso es una ganga, compra, compra, COMPRA!!!!!",
+      "pictures": [
+        {
+          "url": "www.dummy.com",
+          "quality": "HD"
+        }
+      ],
+      "houseSize": "300",
+      "gardenSize": null
+    },
+    {
+      "typology": "FLAT",
+      "description": "Nuevo ático céntrico recién reformado. No deje pasar la oportunidad y adquiera este ático de lujo",
+      "pictures": [
+        {
+          "url": "http://www.idealista.com/pictures/4",
+          "quality": "HD"
+        }
+      ],
+      "houseSize": "300",
+      "gardenSize": null
+    }
+  ]
+}
