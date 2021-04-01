@@ -23,6 +23,81 @@
       ],
       "houseSize": "300",
       "gardenSize": null
+    },
+    {
+      "typology": "CHALET",
+      "description": "",
+      "pictures": [
+        {
+          "url": "http://www.idealista.com/pictures/2",
+          "quality": "HD"
+        }
+      ],
+      "houseSize": "300",
+      "gardenSize": null
+    },
+    {
+      "typology": "FLAT",
+      "description": "Ático céntrico muy luminoso y recién reformado, parece nuevo",
+      "pictures": [
+        {
+          "url": "http://www.idealista.com/pictures/5",
+          "quality": "SD"
+        }
+      ],
+      "houseSize": "300",
+      "gardenSize": null
+    },
+    {
+      "typology": "FLAT",
+      "description": "Pisazo",
+      "pictures": [
+        {
+          "url": "http://www.idealista.com/pictures/3",
+          "quality": "SD"
+        },
+        {
+          "url": "http://www.idealista.com/pictures/8",
+          "quality": "HD"
+        }
+      ],
+      "houseSize": "300",
+      "gardenSize": null
+    },
+    {
+      "typology": "GARAGE",
+      "description": "",
+      "pictures": [
+        {
+          "url": "http://www.idealista.com/pictures/6",
+          "quality": "SD"
+        }
+      ],
+      "houseSize": "300",
+      "gardenSize": null
+    },
+    {
+      "typology": "GARAGE",
+      "description": "Garaje en el centro de Albacete",
+      "pictures": [],
+      "houseSize": "300",
+      "gardenSize": null
+    },
+    {
+      "typology": "CHALET",
+      "description": "Maravilloso chalet situado en lAs afueras de un pequeño pueblo rural. El entorno es espectacular, las vistas magníficas. ¡Cómprelo ahora!",
+      "pictures": [
+        {
+          "url": "http://www.idealista.com/pictures/1",
+          "quality": "SD"
+        },
+        {
+          "url": "http://www.idealista.com/pictures/7",
+          "quality": "SD"
+        }
+      ],
+      "houseSize": "300",
+      "gardenSize": null
     }
   ]
 }
