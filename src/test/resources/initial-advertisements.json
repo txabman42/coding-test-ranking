@@ -1,0 +1,16 @@
+{
+  "advertisements": [
+    {
+      "typology": "CHALET",
+      "description": "Dummy desc",
+      "pictures": [
+        {
+          "url": "www.dummy.com",
+          "quality": "HD"
+        }
+      ],
+      "houseSize": "1",
+      "gardenSize": "1"
+    }
+  ]
+}
