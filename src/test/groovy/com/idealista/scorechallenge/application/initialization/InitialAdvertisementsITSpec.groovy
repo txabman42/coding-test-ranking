@@ -1,13 +1,13 @@
 package com.idealista.scorechallenge.application.initialization
 
-import com.idealista.scorechallenge.ScoreChallengeApplication
-import com.idealista.scorechallenge.application.initialization.InitialAdvertisements
 import com.idealista.scorechallenge.domain.model.Typology
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
 import org.springframework.test.context.ContextConfiguration
 import spock.lang.Specification
 
-@ContextConfiguration(classes = ScoreChallengeApplication)
+@WebFluxTest
+@ContextConfiguration(classes = InitialAdvertisements)
 class InitialAdvertisementsITSpec extends Specification {
 
     @Autowired

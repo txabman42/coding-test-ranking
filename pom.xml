@@ -24,6 +24,7 @@
 		<spock-version>2.0-M2-groovy-3.0</spock-version>
 		<gmavenplus-version>1.12.1</gmavenplus-version>
 		<maven-plugin>3.0.0-M5</maven-plugin>
+		<openapi-version>1.5.3</openapi-version>
 	</properties>
 
 	<dependencies>
@@ -32,12 +33,21 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webflux</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
 
 		<!-- Others -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-webflux-ui</artifactId>
+			<version>${openapi-version}</version>
 		</dependency>
 
 		<!-- Test -->
