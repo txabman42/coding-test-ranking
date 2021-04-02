@@ -3,7 +3,7 @@ server:
 
 idealista:
   init:
-    enabled: false
+    enabled: true
 
 springdoc:
   api-docs:

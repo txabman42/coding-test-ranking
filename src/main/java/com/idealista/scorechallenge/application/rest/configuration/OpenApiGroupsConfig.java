@@ -9,9 +9,9 @@ public class OpenApiGroupsConfig {
 
   @Bean
   public GroupedOpenApi advertisementsOpenApi() {
-    final String[] advertisementPaths = {"api/v1/advertisements/**"};
+    final String[] advertisementPaths = {"/api/v1/advertisements**"};
     return GroupedOpenApi.builder()
-        .group("Advertisements").pathsToMatch(advertisementPaths)
+        .group("").pathsToMatch(advertisementPaths)
         .build();
   }
 }
