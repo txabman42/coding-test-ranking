@@ -2,3 +2,9 @@ springdoc:
   api-docs:
     enabled: false
   version: '@springdoc.version@'
+
+idealista:
+  security:
+    username: idealistaUser
+    password: idealistaPassword
+    role: USER
