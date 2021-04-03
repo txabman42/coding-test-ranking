@@ -9,13 +9,13 @@ public class Picture extends BaseEntity {
 
   private String url;
 
-  private String quality;
+  private Quality quality;
 
   public Picture() {
     super();
   }
 
-  public Picture(String url, String quality) {
+  public Picture(String url, Quality quality) {
     super();
     this.url = url;
     this.quality = quality;

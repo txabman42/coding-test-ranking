@@ -3,4 +3,11 @@ server:
 
 idealista:
   init:
-    enabled: false
+    enabled: true
+  advertisement:
+    irrelevant-score: 40
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  version: '@springdoc.version@'
