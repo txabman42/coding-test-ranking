@@ -32,7 +32,7 @@ public class AdvertisementRouter {
 
   @RouterOperations({
       @RouterOperation(
-          path = "/v1/api/advertisements", beanClass = AdvertisementHandler.class, beanMethod = "calculateScores",
+          path = "/v1/api/advertisements/scores", beanClass = AdvertisementHandler.class, beanMethod = "calculateScores",
           operation = @Operation(
               tags = ADVERTISEMENT_TAG,
               operationId = "reset",
@@ -54,7 +54,7 @@ public class AdvertisementRouter {
   public RouterFunction<ServerResponse> monoAdvertisementRouterFunction(AdvertisementHandler advertisementHandler) {
     return RouterFunctions
         .route(
-            RequestPredicates.PUT("/api/v1/advertisements").and(RequestPredicates.accept(MediaType.APPLICATION_JSON)),
+            RequestPredicates.POST("/api/v1/advertisements/scores").and(RequestPredicates.accept(MediaType.APPLICATION_JSON)),
             advertisementHandler::calculateScores);
   }
 }

@@ -1,5 +1,6 @@
 package com.idealista.scorechallenge.application.model;
 
+import com.idealista.scorechallenge.domain.model.Quality;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -9,6 +10,6 @@ public class PictureDto {
 
   private final String url;
 
-  private final String quality;
+  private final Quality quality;
 
 }

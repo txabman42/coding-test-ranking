@@ -1,0 +1,5 @@
+"Luminoso",
+"Nuevo",
+"Céntrico",
+"Reformando",
+"Ático"

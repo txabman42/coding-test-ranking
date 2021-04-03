@@ -4,6 +4,8 @@ server:
 idealista:
   init:
     enabled: true
+  advertisement:
+    irrelevant-score: 40
 
 springdoc:
   api-docs:

@@ -1,6 +1,7 @@
 package com.idealista.scorechallenge.domain.repository;
 
 import com.idealista.scorechallenge.domain.model.BaseEntity;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
@@ -17,4 +18,9 @@ public interface BaseReactiveCrudRepository<T extends BaseEntity, ID> {
    * @return Observable of the persisted entity
    */
   <S extends T> Mono<S> save(Mono<S> entity);
+
+  /**
+   * Returns all instances of the type.
+   */
+  <S extends T> Flux<S> findAll();
 }

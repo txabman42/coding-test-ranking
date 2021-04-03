@@ -15,4 +15,9 @@ public interface AdvertisementService {
    * @param advertisementRequestDtoMono Publisher of the advertisement to be created
    */
   Mono<Void> create(Mono<AdvertisementRequestDto> advertisementRequestDtoMono);
+
+  /**
+   * Calculate scores of all {@link Advertisement} without any previous calculation
+   */
+  Mono<Void> calculateScores();
 }

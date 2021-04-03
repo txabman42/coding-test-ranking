@@ -1,6 +1,7 @@
 package com.idealista.scorechallenge.application.rest;
 
 import com.idealista.scorechallenge.domain.model.Advertisement;
+import com.idealista.scorechallenge.domain.service.AdvertisementService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -16,10 +17,13 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class AdvertisementHandler {
 
+  private final AdvertisementService advertisementService;
+
   /**
    * Calculate scores of all existing advertisements
    */
   public Mono<ServerResponse> calculateScores(ServerRequest request) {
-    return Mono.empty();
+    log.info("[ PUT ] --> /advertisements/scores");
+    return advertisementService.calculateScores().then(ServerResponse.ok().build());
   }
 }
