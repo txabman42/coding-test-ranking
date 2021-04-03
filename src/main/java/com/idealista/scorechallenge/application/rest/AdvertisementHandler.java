@@ -32,6 +32,8 @@ public class AdvertisementHandler {
    */
   public Mono<ServerResponse> getAll(ServerRequest request) {
     log.info("[ GET ] --> /advertisements");
-    return null;
+    return advertisementService.findAllNoIrrelevant()
+        .collectList()
+        .flatMap(advertisementDtos -> ServerResponse.ok().bodyValue(advertisementDtos));
   }
 }

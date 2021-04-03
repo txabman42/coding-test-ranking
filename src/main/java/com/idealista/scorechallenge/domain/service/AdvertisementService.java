@@ -1,7 +1,9 @@
 package com.idealista.scorechallenge.domain.service;
 
+import com.idealista.scorechallenge.application.model.AdvertisementDto;
 import com.idealista.scorechallenge.application.model.AdvertisementRequestDto;
 import com.idealista.scorechallenge.domain.model.Advertisement;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
@@ -20,4 +22,11 @@ public interface AdvertisementService {
    * Calculate scores of all {@link Advertisement} without any previous calculation
    */
   Mono<Void> calculateScores();
+
+  /**
+   * Finds all no irrelevant {@link Advertisement}
+   *
+   * @return Found advertisements ordered by score
+   */
+  Flux<AdvertisementDto> findAllNoIrrelevant();
 }

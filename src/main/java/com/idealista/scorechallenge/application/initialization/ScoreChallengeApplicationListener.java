@@ -30,7 +30,8 @@ public class ScoreChallengeApplicationListener implements ApplicationListener<Ap
   @Override
   public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
     List<AdvertisementRequestDto> advertisementRequestDtos =
-        mapper.convertValue(initialAdvertisements.getAdvertisements(), new TypeReference<>() { });
+        mapper.convertValue(initialAdvertisements.getAdvertisements(), new TypeReference<>() {
+        });
     Flux.fromIterable(advertisementRequestDtos)
         .flatMap(advertisementRequestDto -> advertisementService.create(Mono.just(advertisementRequestDto)))
         .subscribe();

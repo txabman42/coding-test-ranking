@@ -1,6 +1,5 @@
 package com.idealista.scorechallenge.application.rest;
 
-import com.idealista.scorechallenge.application.model.AdvertisementDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;

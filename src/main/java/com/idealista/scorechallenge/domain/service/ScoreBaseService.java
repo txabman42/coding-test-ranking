@@ -20,7 +20,7 @@ public abstract class ScoreBaseService implements ScoreService {
   private static final Integer PICTURE_NO_HD_SCORE = 10;
   private static final Integer PICTURE_HD_SCORE = 20;
   private static final Integer DESCRIPTION_SCORE = 5;
-  private static final Integer KEY_WORD_SCORE  = 5;
+  private static final Integer KEY_WORD_SCORE = 5;
   private static final Integer COMPLETE_SCORE = 40;
 
   private final KeyWords keyWords;

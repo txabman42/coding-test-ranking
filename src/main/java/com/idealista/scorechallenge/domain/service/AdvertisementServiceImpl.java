@@ -1,5 +1,6 @@
 package com.idealista.scorechallenge.domain.service;
 
+import com.idealista.scorechallenge.application.model.AdvertisementDto;
 import com.idealista.scorechallenge.application.model.AdvertisementRequestDto;
 import com.idealista.scorechallenge.domain.configuration.AdvertisementConfigurationProperties;
 import com.idealista.scorechallenge.domain.model.Advertisement;
@@ -9,8 +10,10 @@ import com.idealista.scorechallenge.domain.repository.AdvertisementRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.Comparator;
 import java.util.Date;
 import java.util.stream.Collectors;
 
@@ -41,8 +44,8 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     advertisement.getBuilding().setGardenSize(advertisementRequestDto.getGardenSize());
     advertisement.getBuilding().setPictures(
         advertisementRequestDto.getPictures().stream()
-          .map(pictureDto -> new Picture(pictureDto.getUrl(), pictureDto.getQuality()))
-          .collect(Collectors.toList()));
+            .map(pictureDto -> new Picture(pictureDto.getUrl(), pictureDto.getQuality()))
+            .collect(Collectors.toList()));
     return advertisement;
   }
 
@@ -68,5 +71,13 @@ public class AdvertisementServiceImpl implements AdvertisementService {
   private void irrelevanceDetection(Advertisement advertisement) {
     if (advertisement.getScore() <= configurationProperties.getIrrelevantScore())
       advertisement.setIrrelevantSince(new Date());
+  }
+
+  @Override
+  public Flux<AdvertisementDto> findAllNoIrrelevant() {
+    return advertisementRepository.findAll()
+        .filter(advertisement -> advertisement.getIrrelevantSince() == null)
+        .sort(Comparator.comparing(Advertisement::getScore).reversed())
+        .map(AdvertisementDto::of);
   }
 }
