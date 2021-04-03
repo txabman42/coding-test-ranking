@@ -26,4 +26,14 @@ public class AdvertisementHandler {
     log.info("[ PUT ] --> /advertisements/scores");
     return advertisementService.calculateScores().then(ServerResponse.ok().build());
   }
+
+  /**
+   * Get all advertisements for user
+   */
+  public Mono<ServerResponse> getAll(ServerRequest request) {
+    log.info("[ GET ] --> /advertisements");
+    return advertisementService.findAllNoIrrelevant()
+        .collectList()
+        .flatMap(advertisementDtos -> ServerResponse.ok().bodyValue(advertisementDtos));
+  }
 }

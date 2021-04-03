@@ -82,4 +82,23 @@ class AdvertisementServiceSpec extends Specification {
         then:
             StepVerifier.create(result).verifyComplete()
     }
+
+    def "findAllNoIrrelevant should return all no irrelevant advertisements"() {
+        given:
+            advertisement.setIrrelevantSince(new Date())
+            Advertisement advertisementScore1 = new Advertisement()
+            advertisementScore1.score = 100
+            advertisementScore1.building = new Building()
+            Advertisement advertisementScore2 = new Advertisement()
+            advertisementScore2.score = 500
+            advertisementScore2.building = new Building()
+            1 * advertisementRepository.findAll() >> Flux.fromIterable([advertisement, advertisementScore1, advertisementScore2])
+        when:
+            def result = advertisementService.findAllNoIrrelevant()
+        then:
+            StepVerifier.create(result)
+                    .expectNextMatches(advertisementDto -> advertisementDto.id == advertisementScore2.uuid)
+                    .expectNextMatches(advertisementDto -> advertisementDto.id == advertisementScore1.uuid)
+                    .verifyComplete()
+    }
 }
