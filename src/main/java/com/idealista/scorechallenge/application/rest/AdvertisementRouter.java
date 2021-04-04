@@ -81,6 +81,40 @@ public class AdvertisementRouter {
                       responseCode = "400",
                       content = @Content(
                           mediaType = MediaType.APPLICATION_JSON_VALUE,
+                          examples = {@ExampleObject(value = ERROR_DEMO_RESPONSE)}))})),
+      @RouterOperation(
+          path = "/api/private/v1/advertisements", beanClass = AdvertisementHandler.class, beanMethod = "getAll",
+          operation = @Operation(
+              tags = ADVERTISEMENT_TAG,
+              operationId = "getAll",
+              responses = {
+                  @ApiResponse(
+                      description = "All irrelevant advertisements",
+                      responseCode = "200",
+                      content = @Content(
+                          mediaType = MediaType.APPLICATION_JSON_VALUE,
+                          schema = @Schema(implementation = List.class),
+                          examples = {@ExampleObject(value = """
+                              [
+                                {
+                                  "uuid": "00000000-0000-0000-0000-000000000000",
+                                  "typology": "FLAT",
+                                  "description": "Pisazo",
+                                  "pictureUrls": [
+                                    "http://www.idealista.com/pictures/1"
+                                  ],
+                                  "houseSize": "100",
+                                  "gardenSize": null,
+                                  "score": 100,
+                                  "irrelevantSince": null
+                                }
+                              ]
+                              """)})),
+                  @ApiResponse(
+                      description = "When there is a failure in the request format, expected headers, or the payload can't be unmarshalled.",
+                      responseCode = "400",
+                      content = @Content(
+                          mediaType = MediaType.APPLICATION_JSON_VALUE,
                           examples = {@ExampleObject(value = ERROR_DEMO_RESPONSE)}))}))
   })
 
@@ -92,6 +126,9 @@ public class AdvertisementRouter {
             advertisementHandler::calculateScores)
         .andRoute(
             RequestPredicates.GET("/api/public/v1/advertisements").and(RequestPredicates.accept(MediaType.APPLICATION_JSON)),
-            advertisementHandler::getAll);
+            advertisementHandler::getAll)
+        .andRoute(
+            RequestPredicates.GET("/api/private/v1/advertisements").and(RequestPredicates.accept(MediaType.APPLICATION_JSON)),
+            advertisementHandler::getAllIrrelevant);
   }
 }

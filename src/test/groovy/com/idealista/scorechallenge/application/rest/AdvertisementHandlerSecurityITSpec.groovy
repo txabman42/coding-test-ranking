@@ -83,4 +83,28 @@ class AdvertisementHandlerSecurityITSpec extends Specification {
                     .exchange()
                     .expectStatus().isOk()
     }
+
+    @WithMockUser
+    def "given valid user route getAllIrrelevant should response OK"() {
+        given:
+            advertisementService.findAllIrrelevant() >> Flux.empty()
+        expect:
+            webTestClient.mutateWith(csrf())
+                    .get()
+                    .uri("/api/private/v1/advertisements")
+                    .exchange()
+                    .expectStatus().isOk()
+    }
+
+    @WithAnonymousUser
+    def "given anonymous user route getAllIrrelevant should response forbidden"() {
+        given:
+            advertisementService.findAllIrrelevant() >> Flux.empty()
+        expect:
+            webTestClient.mutateWith(csrf())
+                    .get()
+                    .uri("/api/private/v1/advertisements")
+                    .exchange()
+                    .expectStatus().isForbidden()
+    }
 }

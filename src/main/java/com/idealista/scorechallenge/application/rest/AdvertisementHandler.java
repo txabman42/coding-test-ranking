@@ -23,7 +23,7 @@ public class AdvertisementHandler {
    * Calculate scores of all existing advertisements
    */
   public Mono<ServerResponse> calculateScores(ServerRequest request) {
-    log.info("[ PUT ] --> /advertisements/scores");
+    log.info("[ PUT ] --> /api/private/v1/advertisements/scores");
     return advertisementService.calculateScores().then(ServerResponse.ok().build());
   }
 
@@ -31,8 +31,18 @@ public class AdvertisementHandler {
    * Get all advertisements for user
    */
   public Mono<ServerResponse> getAll(ServerRequest request) {
-    log.info("[ GET ] --> /advertisements");
+    log.info("[ GET ] --> /api/public/v1/advertisements");
     return advertisementService.findAllNoIrrelevant()
+        .collectList()
+        .flatMap(advertisementDtos -> ServerResponse.ok().bodyValue(advertisementDtos));
+  }
+
+  /**
+   * Get all irrelevant advertisements
+   */
+  public Mono<ServerResponse> getAllIrrelevant(ServerRequest request) {
+    log.info("[ GET ] --> /api/private/v1/advertisements");
+    return advertisementService.findAllIrrelevant()
         .collectList()
         .flatMap(advertisementDtos -> ServerResponse.ok().bodyValue(advertisementDtos));
   }

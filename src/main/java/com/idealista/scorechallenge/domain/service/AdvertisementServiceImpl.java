@@ -1,7 +1,8 @@
 package com.idealista.scorechallenge.domain.service;
 
-import com.idealista.scorechallenge.application.model.AdvertisementDto;
+import com.idealista.scorechallenge.application.model.PublicAdvertisementDto;
 import com.idealista.scorechallenge.application.model.AdvertisementRequestDto;
+import com.idealista.scorechallenge.application.model.QualityAdvertisementDto;
 import com.idealista.scorechallenge.domain.configuration.AdvertisementConfigurationProperties;
 import com.idealista.scorechallenge.domain.model.Advertisement;
 import com.idealista.scorechallenge.domain.model.Building;
@@ -74,10 +75,15 @@ public class AdvertisementServiceImpl implements AdvertisementService {
   }
 
   @Override
-  public Flux<AdvertisementDto> findAllNoIrrelevant() {
+  public Flux<PublicAdvertisementDto> findAllNoIrrelevant() {
     return advertisementRepository.findAll()
         .filter(advertisement -> advertisement.getIrrelevantSince() == null)
         .sort(Comparator.comparing(Advertisement::getScore).reversed())
-        .map(AdvertisementDto::of);
+        .map(PublicAdvertisementDto::of);
+  }
+
+  @Override
+  public Flux<QualityAdvertisementDto> findAllIrrelevant() {
+    return null;
   }
 }

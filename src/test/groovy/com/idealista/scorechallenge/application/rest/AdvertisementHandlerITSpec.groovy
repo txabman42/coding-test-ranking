@@ -55,4 +55,16 @@ class AdvertisementHandlerITSpec extends Specification {
                     .exchange()
                     .expectStatus().isOk()
     }
+
+    @WithMockUser
+    def "route getAllIrrelevant should response OK"() {
+        given:
+            advertisementService.findAllIrrelevant() >> Flux.empty()
+        expect:
+            webTestClient.mutateWith(csrf())
+                    .get()
+                    .uri("/api/private/v1/advertisements")
+                    .exchange()
+                    .expectStatus().isOk()
+    }
 }
