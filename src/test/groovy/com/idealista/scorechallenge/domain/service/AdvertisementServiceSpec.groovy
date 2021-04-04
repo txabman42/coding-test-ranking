@@ -12,6 +12,8 @@ import reactor.test.StepVerifier
 import spock.lang.Shared
 import spock.lang.Specification
 
+import java.time.LocalDateTime
+
 class AdvertisementServiceSpec extends Specification {
 
     ScoreServiceFactory scoreServiceFactory = Mock(ScoreServiceFactory)
@@ -83,9 +85,9 @@ class AdvertisementServiceSpec extends Specification {
             StepVerifier.create(result).verifyComplete()
     }
 
-    def "findAllNoIrrelevant should return all no irrelevant advertisements"() {
+    def "findAllNoIrrelevant should return all no irrelevant advertisements ordered by score"() {
         given:
-            advertisement.setIrrelevantSince(new Date())
+            advertisement.setIrrelevantSince(LocalDateTime.now())
             Advertisement advertisementScore1 = new Advertisement()
             advertisementScore1.score = 100
             advertisementScore1.building = new Building()
@@ -95,6 +97,26 @@ class AdvertisementServiceSpec extends Specification {
             1 * advertisementRepository.findAll() >> Flux.fromIterable([advertisement, advertisementScore1, advertisementScore2])
         when:
             def result = advertisementService.findAllNoIrrelevant()
+        then:
+            StepVerifier.create(result)
+                    .expectNextMatches(advertisementDto -> advertisementDto.id == advertisementScore2.uuid)
+                    .expectNextMatches(advertisementDto -> advertisementDto.id == advertisementScore1.uuid)
+                    .verifyComplete()
+    }
+
+    def "findAllIrrelevant should return all irrelevant advertisements ordered by irrelevantSince"() {
+        given:
+            Advertisement advertisementScore1 = new Advertisement()
+            advertisementScore1.score = 10
+            advertisementScore1.irrelevantSince = LocalDateTime.of(2021, 1, 10, 0, 0)
+            advertisementScore1.building = new Building()
+            Advertisement advertisementScore2 = new Advertisement()
+            advertisementScore2.score = 20
+            advertisementScore2.irrelevantSince = LocalDateTime.of(2021, 1, 2, 0, 0)
+            advertisementScore2.building = new Building()
+            1 * advertisementRepository.findAll() >> Flux.fromIterable([advertisement, advertisementScore1, advertisementScore2])
+        when:
+            def result = advertisementService.findAllIrrelevant()
         then:
             StepVerifier.create(result)
                     .expectNextMatches(advertisementDto -> advertisementDto.id == advertisementScore2.uuid)

@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -32,7 +34,7 @@ public class QualityAdvertisementDto {
 
   private final Integer score;
 
-  private final Date irrelevantSince;
+  private final LocalDateTime irrelevantSince;
 
   public static QualityAdvertisementDto of(Advertisement advertisement) {
     return QualityAdvertisementDto.builder()

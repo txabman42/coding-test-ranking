@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.stream.Collectors;
@@ -71,7 +73,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 
   private void irrelevanceDetection(Advertisement advertisement) {
     if (advertisement.getScore() <= configurationProperties.getIrrelevantScore())
-      advertisement.setIrrelevantSince(new Date());
+      advertisement.setIrrelevantSince(LocalDateTime.now());
   }
 
   @Override
@@ -84,6 +86,9 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 
   @Override
   public Flux<QualityAdvertisementDto> findAllIrrelevant() {
-    return null;
+    return advertisementRepository.findAll()
+        .filter(advertisement -> advertisement.getIrrelevantSince() != null)
+        .sort(Comparator.comparing(Advertisement::getIrrelevantSince))
+        .map(QualityAdvertisementDto::of);
   }
 }
