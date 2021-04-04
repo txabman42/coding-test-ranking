@@ -1,7 +1,7 @@
 package com.idealista.scorechallenge.application.rest
 
-import com.idealista.scorechallenge.application.model.AdvertisementDto
-import com.idealista.scorechallenge.domain.model.Typology
+import com.idealista.scorechallenge.application.model.PublicAdvertisementDto
+import com.idealista.scorechallenge.application.model.QualityAdvertisementDto
 import com.idealista.scorechallenge.domain.service.AdvertisementService
 import org.springframework.http.HttpStatus
 import org.springframework.web.reactive.function.server.ServerRequest
@@ -31,7 +31,21 @@ class AdvertisementHandlerSpec extends Specification {
         given:
             ServerRequest serverRequest = Mock(ServerRequest)
             UUID uuid = UUID.randomUUID()
-            AdvertisementDto advertisementDto = new AdvertisementDto(uuid, null, null, null, null, null)
+            PublicAdvertisementDto advertisementDto = PublicAdvertisementDto.builder().id(uuid).build()
+            1 * advertisementService.findAllNoIrrelevant() >> Flux.fromIterable([advertisementDto])
+        when:
+            def result = advertisementHandler.getAll(serverRequest)
+        then:
+            StepVerifier.create(result).expectNextMatches({
+                response -> response.statusCode() == HttpStatus.OK
+            }).verifyComplete()
+    }
+
+    def "getAllIrrelevant should return all irrelevant advertisements"() {
+        given:
+            ServerRequest serverRequest = Mock(ServerRequest)
+            UUID uuid = UUID.randomUUID()
+            QualityAdvertisementDto advertisementDto = QualityAdvertisementDto.builder().id(uuid).build()
             1 * advertisementService.findAllNoIrrelevant() >> Flux.fromIterable([advertisementDto])
         when:
             def result = advertisementHandler.getAll(serverRequest)

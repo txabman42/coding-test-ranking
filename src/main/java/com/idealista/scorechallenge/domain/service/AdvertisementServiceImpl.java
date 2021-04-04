@@ -1,7 +1,8 @@
 package com.idealista.scorechallenge.domain.service;
 
-import com.idealista.scorechallenge.application.model.AdvertisementDto;
+import com.idealista.scorechallenge.application.model.PublicAdvertisementDto;
 import com.idealista.scorechallenge.application.model.AdvertisementRequestDto;
+import com.idealista.scorechallenge.application.model.QualityAdvertisementDto;
 import com.idealista.scorechallenge.domain.configuration.AdvertisementConfigurationProperties;
 import com.idealista.scorechallenge.domain.model.Advertisement;
 import com.idealista.scorechallenge.domain.model.Building;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.stream.Collectors;
@@ -70,14 +73,22 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 
   private void irrelevanceDetection(Advertisement advertisement) {
     if (advertisement.getScore() <= configurationProperties.getIrrelevantScore())
-      advertisement.setIrrelevantSince(new Date());
+      advertisement.setIrrelevantSince(LocalDateTime.now());
   }
 
   @Override
-  public Flux<AdvertisementDto> findAllNoIrrelevant() {
+  public Flux<PublicAdvertisementDto> findAllNoIrrelevant() {
     return advertisementRepository.findAll()
         .filter(advertisement -> advertisement.getIrrelevantSince() == null)
         .sort(Comparator.comparing(Advertisement::getScore).reversed())
-        .map(AdvertisementDto::of);
+        .map(PublicAdvertisementDto::of);
+  }
+
+  @Override
+  public Flux<QualityAdvertisementDto> findAllIrrelevant() {
+    return advertisementRepository.findAll()
+        .filter(advertisement -> advertisement.getIrrelevantSince() != null)
+        .sort(Comparator.comparing(Advertisement::getIrrelevantSince))
+        .map(QualityAdvertisementDto::of);
   }
 }

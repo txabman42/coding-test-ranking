@@ -4,6 +4,7 @@ import com.idealista.scorechallenge.domain.model.Advertisement;
 import com.idealista.scorechallenge.domain.model.Picture;
 import com.idealista.scorechallenge.domain.model.Typology;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
@@ -12,9 +13,9 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Getter
+@Builder
 @EqualsAndHashCode
-@AllArgsConstructor
-public class AdvertisementDto {
+public class PublicAdvertisementDto {
 
   private final UUID id;
 
@@ -28,14 +29,14 @@ public class AdvertisementDto {
 
   private final Integer gardenSize;
 
-  public static AdvertisementDto of(Advertisement advertisement) {
-    return new AdvertisementDto(
-        advertisement.getUuid(),
-        advertisement.getBuilding().getTypology(),
-        advertisement.getDescription(),
-        advertisement.getBuilding().getPictures().stream().map(Picture::getUrl).collect(Collectors.toUnmodifiableList()),
-        advertisement.getBuilding().getHouseSize(),
-        advertisement.getBuilding().getGardenSize()
-    );
+  public static PublicAdvertisementDto of(Advertisement advertisement) {
+    return PublicAdvertisementDto.builder()
+        .id(advertisement.getUuid())
+        .typology(advertisement.getBuilding().getTypology())
+        .description(advertisement.getDescription())
+        .pictureUrls(advertisement.getBuilding().getPictures().stream().map(Picture::getUrl).collect(Collectors.toUnmodifiableList()))
+        .houseSize(advertisement.getBuilding().getHouseSize())
+        .gardenSize(advertisement.getBuilding().getGardenSize())
+        .build();
   }
 }

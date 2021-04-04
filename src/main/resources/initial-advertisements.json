@@ -3,12 +3,7 @@
     {
       "typology": "CHALET",
       "description": "Este piso es una ganga, compra, compra, COMPRA!!!!!",
-      "pictures": [
-        {
-          "url": "www.dummy.com",
-          "quality": "HD"
-        }
-      ],
+      "pictures": [],
       "houseSize": "300",
       "gardenSize": null
     },

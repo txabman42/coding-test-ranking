@@ -3,7 +3,7 @@ package com.idealista.scorechallenge.domain.model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 
 @Data
@@ -16,7 +16,7 @@ public class Advertisement extends BaseEntity {
 
   private Integer score;
 
-  private Date irrelevantSince;
+  private LocalDateTime irrelevantSince;
 
   public Advertisement() {
     super();
