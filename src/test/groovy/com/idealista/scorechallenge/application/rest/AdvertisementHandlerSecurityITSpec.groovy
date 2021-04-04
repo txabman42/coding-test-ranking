@@ -1,7 +1,9 @@
 package com.idealista.scorechallenge.application.rest
 
+import com.idealista.scorechallenge.application.model.AdvertisementRequestDto
 import com.idealista.scorechallenge.application.rest.configuration.SecurityConfigurationProperties
 import com.idealista.scorechallenge.application.rest.configuration.WebSecurityConfig
+import com.idealista.scorechallenge.domain.model.Typology
 import com.idealista.scorechallenge.domain.service.AdvertisementService
 import org.spockframework.spring.SpringBean
 import org.springframework.beans.factory.annotation.Autowired
@@ -50,8 +52,6 @@ class AdvertisementHandlerSecurityITSpec extends Specification {
 
     @WithAnonymousUser
     def "given anonymous user route updateScores should response forbidden"() {
-        given:
-            advertisementService.calculateScores() >> Mono.empty()
         expect:
             webTestClient.mutateWith(csrf())
                     .post()
@@ -98,12 +98,37 @@ class AdvertisementHandlerSecurityITSpec extends Specification {
 
     @WithAnonymousUser
     def "given anonymous user route getAllIrrelevant should response forbidden"() {
-        given:
-            advertisementService.findAllIrrelevant() >> Flux.empty()
         expect:
             webTestClient.mutateWith(csrf())
                     .get()
                     .uri("/api/private/v1/advertisements")
+                    .exchange()
+                    .expectStatus().isForbidden()
+    }
+
+    @WithMockUser
+    def "given valid user route create should response OK"() {
+        given:
+            AdvertisementRequestDto advertisementRequestDto = new AdvertisementRequestDto(Typology.FLAT, null, [], null, null)
+            advertisementService.create(_ as Mono<AdvertisementRequestDto>) >> Mono.empty()
+        expect:
+            webTestClient.mutateWith(csrf())
+                    .post()
+                    .uri("/api/private/v1/advertisements")
+                    .bodyValue(advertisementRequestDto)
+                    .exchange()
+                    .expectStatus().isOk()
+    }
+
+    @WithAnonymousUser
+    def "given anonymous user route create should response forbidden"() {
+        given:
+            AdvertisementRequestDto advertisementRequestDto = new AdvertisementRequestDto(Typology.FLAT, null, [], null, null)
+        expect:
+            webTestClient.mutateWith(csrf())
+                    .post()
+                    .uri("/api/private/v1/advertisements")
+                    .bodyValue(advertisementRequestDto)
                     .exchange()
                     .expectStatus().isForbidden()
     }

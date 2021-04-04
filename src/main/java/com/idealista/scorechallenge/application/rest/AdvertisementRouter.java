@@ -1,9 +1,11 @@
 package com.idealista.scorechallenge.application.rest;
 
+import com.idealista.scorechallenge.application.model.AdvertisementRequestDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springdoc.core.annotations.RouterOperation;
 import org.springdoc.core.annotations.RouterOperations;
@@ -83,7 +85,7 @@ public class AdvertisementRouter {
                           mediaType = MediaType.APPLICATION_JSON_VALUE,
                           examples = {@ExampleObject(value = ERROR_DEMO_RESPONSE)}))})),
       @RouterOperation(
-          path = "/api/private/v1/advertisements", beanClass = AdvertisementHandler.class, beanMethod = "getAll",
+          path = "/api/private/v1/advertisements", beanClass = AdvertisementHandler.class, beanMethod = "getAllIrrelevant",
           operation = @Operation(
               tags = ADVERTISEMENT_TAG,
               operationId = "getAll",
@@ -115,6 +117,39 @@ public class AdvertisementRouter {
                       responseCode = "400",
                       content = @Content(
                           mediaType = MediaType.APPLICATION_JSON_VALUE,
+                          examples = {@ExampleObject(value = ERROR_DEMO_RESPONSE)}))})),
+      @RouterOperation(
+          path = "/api/private/v1/advertisements", beanClass = AdvertisementHandler.class, beanMethod = "create",
+          operation = @Operation(
+              tags = ADVERTISEMENT_TAG,
+              operationId = "create",
+              requestBody = @RequestBody(required = true, description = "Create a advertisement",
+                  content = @Content(
+                      mediaType = MediaType.APPLICATION_JSON_VALUE,
+                      examples = {@ExampleObject(value = """
+                             {
+                                "typology": "FLAT",
+                                "description": "Pisazo",
+                                "pictures": [
+                                  {
+                                    "url": "http://www.idealista.com/pictures/4",
+                                    "quality": "HD"
+                                  }
+                                ],
+                                "houseSize": "100",
+                                "gardenSize": null,
+                             } 
+                          """)},
+                      schema = @Schema(implementation = AdvertisementRequestDto.class))),
+              responses = {
+                  @ApiResponse(
+                      description = "Advertisement created correctly",
+                      responseCode = "202"),
+                  @ApiResponse(
+                      description = "When there is a failure in the request format, expected headers, or the payload can't be unmarshalled.",
+                      responseCode = "400",
+                      content = @Content(
+                          mediaType = MediaType.APPLICATION_JSON_VALUE,
                           examples = {@ExampleObject(value = ERROR_DEMO_RESPONSE)}))}))
   })
 
@@ -129,6 +164,9 @@ public class AdvertisementRouter {
             advertisementHandler::getAll)
         .andRoute(
             RequestPredicates.GET("/api/private/v1/advertisements").and(RequestPredicates.accept(MediaType.APPLICATION_JSON)),
-            advertisementHandler::getAllIrrelevant);
+            advertisementHandler::getAllIrrelevant)
+        .andRoute(
+            RequestPredicates.POST("/api/private/v1/advertisements").and(RequestPredicates.accept(MediaType.APPLICATION_JSON)),
+            advertisementHandler::create);
   }
 }
