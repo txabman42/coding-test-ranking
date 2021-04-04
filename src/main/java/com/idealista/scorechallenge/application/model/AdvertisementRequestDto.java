@@ -20,4 +20,7 @@ public class AdvertisementRequestDto {
 
   private final Integer gardenSize;
 
+  public boolean isNotValid() {
+    return typology == null || pictures == null;
+  }
 }

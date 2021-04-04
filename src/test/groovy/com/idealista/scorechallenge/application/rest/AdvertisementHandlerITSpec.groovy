@@ -1,5 +1,7 @@
 package com.idealista.scorechallenge.application.rest
 
+import com.idealista.scorechallenge.application.model.AdvertisementRequestDto
+import com.idealista.scorechallenge.domain.model.Typology
 import com.idealista.scorechallenge.domain.service.AdvertisementService
 import org.spockframework.spring.SpringBean
 import org.springframework.beans.factory.annotation.Autowired
@@ -64,6 +66,20 @@ class AdvertisementHandlerITSpec extends Specification {
             webTestClient.mutateWith(csrf())
                     .get()
                     .uri("/api/private/v1/advertisements")
+                    .exchange()
+                    .expectStatus().isOk()
+    }
+
+    @WithMockUser
+    def "given valid advertisementRequestDto route create should response OK"() {
+        given:
+            AdvertisementRequestDto advertisementRequestDto = new AdvertisementRequestDto(Typology.FLAT, null, [], null, null)
+            advertisementService.create(_ as Mono<AdvertisementRequestDto>) >> Mono.empty()
+        expect:
+            webTestClient.mutateWith(csrf())
+                    .post()
+                    .uri("/api/private/v1/advertisements")
+                    .bodyValue(advertisementRequestDto)
                     .exchange()
                     .expectStatus().isOk()
     }
