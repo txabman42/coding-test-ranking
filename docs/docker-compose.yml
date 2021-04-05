@@ -1,0 +1,8 @@
+version: "3"
+
+services:
+
+  pool-challenge:
+    image: idealista-score-challenge:latest
+    ports:
+      - "8080:8080"

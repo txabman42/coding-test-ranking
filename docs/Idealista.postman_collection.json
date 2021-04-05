@@ -1,0 +1,155 @@
+{
+	"info": {
+		"_postman_id": "bc9bbc3b-b139-4c0c-98ff-8b9960ad3553",
+		"name": "Idealista",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Score calculation",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "idealistaPassword",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "idealistaUser",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/private/v1/advertisements/scores",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"private",
+						"v1",
+						"advertisements",
+						"scores"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all quality",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/public/v1/advertisements",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"public",
+						"v1",
+						"advertisements"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all irrelevant",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "idealistaPassword",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "idealistaUser",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/private/v1/advertisements",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"private",
+						"v1",
+						"advertisements"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create advertisement",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "idealistaPassword",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "idealistaUser",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\n      \"typology\": \"CHALET\",\n      \"description\": \"compra, compra, COMPRA!!!!!\",\n      \"pictures\": [],\n      \"houseSize\": \"300\",\n      \"gardenSize\": null\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/private/v1/advertisements",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"private",
+						"v1",
+						"advertisements"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

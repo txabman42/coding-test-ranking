@@ -16,7 +16,7 @@ public class OpenApiConfig {
   public OpenAPI customOpenAPI(@Value("${springdoc.version}") String appVersion) {
     ModelConverters.getInstance().addConverter(new WebFluxSupportConverter());
     return new OpenAPI()
-        .info(new Info().title("Cabify Pool API").version(appVersion)
+        .info(new Info().title("Idealista API").version(appVersion)
             .license(new License().name("Apache 2.0").url("http://springdoc.org")));
   }
 }
