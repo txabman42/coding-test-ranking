@@ -1,7 +1,7 @@
 package com.idealista.scorechallenge.domain.service;
 
-import com.idealista.scorechallenge.application.model.PublicAdvertisementDto;
 import com.idealista.scorechallenge.application.model.AdvertisementRequestDto;
+import com.idealista.scorechallenge.application.model.PublicAdvertisementDto;
 import com.idealista.scorechallenge.application.model.QualityAdvertisementDto;
 import com.idealista.scorechallenge.domain.model.Advertisement;
 import reactor.core.publisher.Flux;
@@ -29,7 +29,7 @@ public interface AdvertisementService {
    *
    * @return Found advertisements ordered by score
    */
-  Flux<PublicAdvertisementDto> findAllNoIrrelevant();
+  Flux<PublicAdvertisementDto> findAllQuality();
 
   /**
    * Finds all irrelevant {@link Advertisement}

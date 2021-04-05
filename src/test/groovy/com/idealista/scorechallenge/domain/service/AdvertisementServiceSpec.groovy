@@ -96,7 +96,7 @@ class AdvertisementServiceSpec extends Specification {
             advertisementScore2.building = new Building()
             1 * advertisementRepository.findAll() >> Flux.fromIterable([advertisement, advertisementScore1, advertisementScore2])
         when:
-            def result = advertisementService.findAllNoIrrelevant()
+            def result = advertisementService.findAllQuality()
         then:
             StepVerifier.create(result)
                     .expectNextMatches(advertisementDto -> advertisementDto.id == advertisementScore2.uuid)

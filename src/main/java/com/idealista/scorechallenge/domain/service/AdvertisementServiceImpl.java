@@ -1,7 +1,7 @@
 package com.idealista.scorechallenge.domain.service;
 
-import com.idealista.scorechallenge.application.model.PublicAdvertisementDto;
 import com.idealista.scorechallenge.application.model.AdvertisementRequestDto;
+import com.idealista.scorechallenge.application.model.PublicAdvertisementDto;
 import com.idealista.scorechallenge.application.model.QualityAdvertisementDto;
 import com.idealista.scorechallenge.domain.configuration.AdvertisementConfigurationProperties;
 import com.idealista.scorechallenge.domain.model.Advertisement;
@@ -14,16 +14,17 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.time.LocalDate;
+import javax.naming.directory.InvalidAttributesException;
 import java.time.LocalDateTime;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class AdvertisementServiceImpl implements AdvertisementService {
+
+  private static final String NULL_SCORE_EXCEPTION = "Score of advertisement %s is null";
 
   private final ScoreServiceFactory scoreServiceFactory;
   private final AdvertisementRepository advertisementRepository;
@@ -77,9 +78,10 @@ public class AdvertisementServiceImpl implements AdvertisementService {
   }
 
   @Override
-  public Flux<PublicAdvertisementDto> findAllNoIrrelevant() {
+  public Flux<PublicAdvertisementDto> findAllQuality() {
     return advertisementRepository.findAll()
         .filter(advertisement -> advertisement.getIrrelevantSince() == null)
+        .flatMap(this::validateScore)
         .sort(Comparator.comparing(Advertisement::getScore).reversed())
         .map(PublicAdvertisementDto::of);
   }
@@ -88,7 +90,14 @@ public class AdvertisementServiceImpl implements AdvertisementService {
   public Flux<QualityAdvertisementDto> findAllIrrelevant() {
     return advertisementRepository.findAll()
         .filter(advertisement -> advertisement.getIrrelevantSince() != null)
+        .flatMap(this::validateScore)
         .sort(Comparator.comparing(Advertisement::getIrrelevantSince))
         .map(QualityAdvertisementDto::of);
+  }
+
+  private Mono<Advertisement> validateScore(Advertisement advertisement) {
+    return advertisement.getScore() != null
+        ? Mono.just(advertisement)
+        : Mono.error(new InvalidAttributesException(String.format(NULL_SCORE_EXCEPTION, advertisement.getUuid())));
   }
 }
