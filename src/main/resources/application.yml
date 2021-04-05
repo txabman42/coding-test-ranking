@@ -7,9 +7,9 @@ idealista:
   init:
     enabled: true
   security:
-    username: idealistaUser
-    password: idealistaPassword
-    role: USER
+    username: ${APP_USERNAME:idealistaUser}
+    password: ${APP_PASSWORD:idealistaPassword}
+    role: ${APP_ROLE:USER}
 
 springdoc:
   api-docs:

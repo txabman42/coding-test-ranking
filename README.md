@@ -1,5 +1,99 @@
 # Reto: Servicio para gestión de calidad de los anuncios
 
+## Tech stack
+
+To carry out this technical challenge, the following technologies have been used:
+- Java 15
+- Spring Boot 2.4.4
+- Webflux
+- Spock 2.0
+
+## Api documentation
+
+API is documented with Swagger following the OpenAPI 3 specifications:
+
+- OpenAPI descriptions: http://localhost:8080/api-docs
+- Swagger definition: http://localhost:8080/swagger-ui.html
+
+## Build
+
+In order to build the service, from root folder it has to be done one of the following steps:
+
+- **Docker**
+  
+  This is the easiest way to run the application. Thanks to the multi-stage Dockerfile, no other technology will
+  be required to compile, package and run the application. In the first stages, the program will be packaged
+  using the maven image [maven:3.6.3-openjdk-15](https://hub.docker.com/_/maven). In the last stage, the application
+  will be executed on the image [openjdk:15-jdk-slim](https://hub.docker.com/_/openjdk).
+
+  - **Build image**:
+    ```
+    docker build -t idealista-score-challenge:latest .
+    ```
+  - **Docker compose**: Go to the following path ```./docs``` and run:
+    
+    ```
+    docker-compose up -d
+    ```
+
+- **Maven**
+  
+  Run the following command to compile the service
+  ```
+  mvn clean compile
+  ```
+  To run the previously compiled JAR run the [Maven Spring Boot plugin](https://docs.spring.io/spring-boot/docs/current/maven-plugin/reference/htmlsingle/)
+  goal:
+  ```
+  mvn spring-boor:run
+  ```
+
+## Testing
+
+[Spock](https://spockframework.org/spock/docs/1.3/all_in_one.html) has been used for unit and integration tests.
+Some of its advantages are:
+
+- Easy of use via the Given/When/Then approach
+- Easily write one test with multiple cases
+- Verbose output for test failures
+- Built-in mocking library
+
+The execution of the unit tests is under the responsibility of the
+[Surefire plugin](https://maven.apache.org/surefire/maven-surefire-plugin/), while the integration tests will be
+executed thanks to the [Failsafe plugin](https://maven.apache.org/surefire/maven-failsafe-plugin/).
+Since Spock is based on Groovy, the [Gmavenplus plugin](https://groovy.github.io/GMavenPlus/) has been used for
+compiling the tests. You can run the tests with the following commands:
+
+- Run unit tests: ```mvn test```
+
+- Run unit and integration tests: ```mvn verify```
+
+## Security
+
+Basic authentication mechanism has been implemented. This security filter has been added at the web level,
+requiring authentication to access any ```/api/private``` endpoint. In this case, no specific role is requested,
+only that the user is authenticated. Since this is an exercise with a reduced scope, the following credentials have
+been loaded directly into memory:
+
+- Username: idealistaUser
+- Password: idealistaPassword
+
+These credentials are configurable through the following configuration properties in the application.yml:
+```
+idealista:
+  security:
+    username:
+    password:
+    role
+```
+or defining the following environment variables:
+
+- APP_USERNAME
+- APP_PASSWORD
+- APP_ROLE
+
+### Enunciado
+
 [![Build Status](https://travis-ci.org/idealista/coding-test-ranking.svg?branch=master)](https://travis-ci.org/idealista/coding-test-ranking)
 
 Este repositorio contiene un API parcialmente desarrollada para desarrollar un servicio que se encargue de medir la calidad de los anuncios. Tu objetivo será implementar las historias de usuario que se describen más adelante.

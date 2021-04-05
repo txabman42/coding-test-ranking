@@ -1,6 +1,8 @@
 package com.idealista.scorechallenge.application.rest;
 
 import com.idealista.scorechallenge.application.model.AdvertisementRequestDto;
+import com.idealista.scorechallenge.application.model.PublicAdvertisementDto;
+import com.idealista.scorechallenge.application.model.QualityAdvertisementDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -12,12 +14,11 @@ import org.springdoc.core.annotations.RouterOperations;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.reactive.function.server.RequestPredicates;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerResponse;
-
-import java.util.List;
 
 @Configuration
 public class AdvertisementRouter {
@@ -36,6 +37,7 @@ public class AdvertisementRouter {
   @RouterOperations({
       @RouterOperation(
           path = "/api/private/v1/advertisements/scores", beanClass = AdvertisementHandler.class, beanMethod = "calculateScores",
+          method = RequestMethod.POST,
           operation = @Operation(
               tags = ADVERTISEMENT_TAG,
               operationId = "reset",
@@ -54,6 +56,7 @@ public class AdvertisementRouter {
               })),
       @RouterOperation(
           path = "/api/public/v1/advertisements", beanClass = AdvertisementHandler.class, beanMethod = "getAll",
+          method = RequestMethod.GET,
           operation = @Operation(
               tags = ADVERTISEMENT_TAG,
               operationId = "getAll",
@@ -63,7 +66,7 @@ public class AdvertisementRouter {
                       responseCode = "200",
                       content = @Content(
                           mediaType = MediaType.APPLICATION_JSON_VALUE,
-                          schema = @Schema(implementation = List.class),
+                          schema = @Schema(implementation = QualityAdvertisementDto.class),
                           examples = {@ExampleObject(value = """
                               [
                                 {
@@ -86,16 +89,17 @@ public class AdvertisementRouter {
                           examples = {@ExampleObject(value = ERROR_DEMO_RESPONSE)}))})),
       @RouterOperation(
           path = "/api/private/v1/advertisements", beanClass = AdvertisementHandler.class, beanMethod = "getAllIrrelevant",
+          method = RequestMethod.GET,
           operation = @Operation(
               tags = ADVERTISEMENT_TAG,
-              operationId = "getAll",
+              operationId = "getAllIrrelevant",
               responses = {
                   @ApiResponse(
                       description = "All irrelevant advertisements",
                       responseCode = "200",
                       content = @Content(
                           mediaType = MediaType.APPLICATION_JSON_VALUE,
-                          schema = @Schema(implementation = List.class),
+                          schema = @Schema(implementation = PublicAdvertisementDto.class),
                           examples = {@ExampleObject(value = """
                               [
                                 {
@@ -120,12 +124,14 @@ public class AdvertisementRouter {
                           examples = {@ExampleObject(value = ERROR_DEMO_RESPONSE)}))})),
       @RouterOperation(
           path = "/api/private/v1/advertisements", beanClass = AdvertisementHandler.class, beanMethod = "create",
+          method = RequestMethod.POST,
           operation = @Operation(
               tags = ADVERTISEMENT_TAG,
               operationId = "create",
               requestBody = @RequestBody(required = true, description = "Create a advertisement",
                   content = @Content(
                       mediaType = MediaType.APPLICATION_JSON_VALUE,
+                      schema = @Schema(implementation = AdvertisementRequestDto.class),
                       examples = {@ExampleObject(value = """
                              {
                                 "typology": "FLAT",
@@ -139,8 +145,7 @@ public class AdvertisementRouter {
                                 "houseSize": "100",
                                 "gardenSize": null,
                              } 
-                          """)},
-                      schema = @Schema(implementation = AdvertisementRequestDto.class))),
+                          """)})),
               responses = {
                   @ApiResponse(
                       description = "Advertisement created correctly",
