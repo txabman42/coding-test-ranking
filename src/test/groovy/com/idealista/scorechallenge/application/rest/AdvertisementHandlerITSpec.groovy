@@ -49,7 +49,7 @@ class AdvertisementHandlerITSpec extends Specification {
     @WithMockUser
     def "route getAll should response OK"() {
         given:
-            advertisementService.findAllNoIrrelevant() >> Flux.empty()
+            advertisementService.findAllQuality() >> Flux.empty()
         expect:
             webTestClient.mutateWith(csrf())
                     .get()

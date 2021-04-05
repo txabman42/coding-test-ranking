@@ -3,7 +3,6 @@ package com.idealista.scorechallenge.application.model;
 import com.idealista.scorechallenge.domain.model.Advertisement;
 import com.idealista.scorechallenge.domain.model.Picture;
 import com.idealista.scorechallenge.domain.model.Typology;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

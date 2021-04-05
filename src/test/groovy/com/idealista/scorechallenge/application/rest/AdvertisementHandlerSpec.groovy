@@ -42,7 +42,7 @@ class AdvertisementHandlerSpec extends Specification {
         given:
             UUID uuid = UUID.randomUUID()
             PublicAdvertisementDto advertisementDto = PublicAdvertisementDto.builder().id(uuid).build()
-            1 * advertisementService.findAllNoIrrelevant() >> Flux.fromIterable([advertisementDto])
+            1 * advertisementService.findAllQuality() >> Flux.fromIterable([advertisementDto])
         when:
             def result = advertisementHandler.getAll(serverRequest)
         then:
@@ -55,7 +55,7 @@ class AdvertisementHandlerSpec extends Specification {
         given:
             UUID uuid = UUID.randomUUID()
             QualityAdvertisementDto advertisementDto = QualityAdvertisementDto.builder().id(uuid).build()
-            1 * advertisementService.findAllNoIrrelevant() >> Flux.fromIterable([advertisementDto])
+            1 * advertisementService.findAllQuality() >> Flux.fromIterable([advertisementDto])
         when:
             def result = advertisementHandler.getAll(serverRequest)
         then:

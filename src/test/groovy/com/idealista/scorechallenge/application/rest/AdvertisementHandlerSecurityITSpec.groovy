@@ -63,7 +63,7 @@ class AdvertisementHandlerSecurityITSpec extends Specification {
     @WithMockUser
     def "given valid user route getAll should response OK"() {
         given:
-            advertisementService.findAllNoIrrelevant() >> Flux.empty()
+            advertisementService.findAllQuality() >> Flux.empty()
         expect:
             webTestClient.mutateWith(csrf())
                     .get()
@@ -75,7 +75,7 @@ class AdvertisementHandlerSecurityITSpec extends Specification {
     @WithAnonymousUser
     def "given anonymous user route getAll should response OK"() {
         given:
-            advertisementService.findAllNoIrrelevant() >> Flux.empty()
+            advertisementService.findAllQuality() >> Flux.empty()
         expect:
             webTestClient.mutateWith(csrf())
                     .get()

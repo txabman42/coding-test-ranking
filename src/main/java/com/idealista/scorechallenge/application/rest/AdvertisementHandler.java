@@ -31,11 +31,11 @@ public class AdvertisementHandler {
   }
 
   /**
-   * Get all advertisements for user
+   * Get all quality advertisements for user
    */
   public Mono<ServerResponse> getAll(ServerRequest request) {
     log.info("[ GET ] --> /api/public/v1/advertisements");
-    return advertisementService.findAllNoIrrelevant()
+    return advertisementService.findAllQuality()
         .collectList()
         .flatMap(advertisementDtos -> ServerResponse.ok().bodyValue(advertisementDtos));
   }
